@@ -966,14 +966,13 @@
 		               $this->email->print_debugger();
 		}
 
-                public function nama_foto($id_foto)
+        public function nama_foto($id_foto)
 		{
-$nama=$this->dataimage->one($id_foto);
-foreach ($nama->result() as $row){
- return $nama_foto=$row->judul;
-}
-
-                }
+			$nama=$this->dataimage->one($id_foto);
+			foreach ($nama->result() as $row){
+			 	return $nama_foto=$row->judul;
+			}
+        }
 		public function send_mail_reject($id_foto,$memberid)
 		{
 			$c=$this->datacontributor->one($memberid);
@@ -1268,60 +1267,86 @@ Team Pixtox<br>
 			$cek=$this->datakonfirmasi->one($idkonfirmasi);
 			foreach ($cek->result() as $row)
 			{
-				if ($row->status==0) 
+				$no_invoice=$row->no_invoice;
+				$cekDuplikat=$this->cekDuplikat($no_invoice);
+				if ($cekDuplikat==0) 
 				{
-					$this->datakonfirmasi->acc();
-					$this->datainvoice->acc($row->no_invoice);
-					$getDataInvoice=$this->datainvoice->one($row->no_invoice);
-					foreach ($getDataInvoice->result() as $in)
+					// Isinya 
+					if ($row->status==0) 
 					{
-							$ex=date_add(date_create(date('Y-m-d')),date_interval_create_from_date_string("$in->lama_hari days"));
-							$tanggal_expired=date_format($ex,'Y-m-d');
-							$memberid=$in->memberid;
-								$databaru = array(					
-								'memberid' =>$in->memberid,
-								'kode_paket' =>$in->kode_paket,
-								'tanggal_expired' =>$tanggal_expired,
-								'sisa_download' =>$in->kapasitas_download,
-								'status' =>1,
-								'tanggal_deposit'=>date('Y-m-d'),
-								'sisa_deposit'=>((0+$row->jumlah_bayar)-$in->harga)-(10/100*$in->harga),
-								);
-							$deposit=$this->datadeposit->userCek($memberid);
-							if ($deposit->result()==null) 
-							{
-							
-								$this->datadeposit->first_insert($databaru);
-								echo "Success";
-							}
-							else
-							{
-								foreach($deposit->result() as $dep)
+						$this->datakonfirmasi->acc();
+						$this->datainvoice->acc($row->no_invoice);
+						$getDataInvoice=$this->datainvoice->one($row->no_invoice);
+						foreach ($getDataInvoice->result() as $in)
+						{
+								$ex=date_add(date_create(date('Y-m-d')),date_interval_create_from_date_string("$in->lama_hari days"));
+								$tanggal_expired=date_format($ex,'Y-m-d');
+								$memberid=$in->memberid;
+									$databaru = array(					
+									'memberid' =>$in->memberid,
+									'kode_paket' =>$in->kode_paket,
+									'tanggal_expired' =>$tanggal_expired,
+									'sisa_download' =>$in->kapasitas_download,
+									'status' =>1,
+									'tanggal_deposit'=>date('Y-m-d'),
+									'sisa_deposit'=>((0+$row->jumlah_bayar)-$in->harga)-(10/100*$in->harga),
+									);
+								$deposit=$this->datadeposit->userCek($memberid);
+								if ($deposit->result()==null) 
 								{
-									$ex=date_add(date_create($dep->tanggal_expired),date_interval_create_from_date_string("$in->lama_hari days"));
-									$tanggal_expired=date_format($ex,'Y-m-d');
-									$databaru = array(
-										'id_deposit' => $dep->id_deposit, 
-										'memberid' => $dep->memberid, 
-										'kode_paket' => $in->kode_paket, 
-										'tanggal_expired' => $tanggal_expired,
-										'sisa_download'=>$dep->sisa_download+$in->kapasitas_download,
-										'status' =>1,
-										'tanggal_deposit'=>date('Y-m-d'),
-										'sisa_deposit'=>((0+$row->jumlah_bayar)-$in->harga)-(10/100*$in->harga),
-										);
-									//print_r($databaru);
-									$id_deposit=$dep->id_deposit;
-									$this->datadeposit->update_deposit($databaru,$id_deposit);
+								
+									$this->datadeposit->first_insert($databaru);
+									echo "Success";
 								}
-								echo "Success";	
-							}
-					}
-		 		}
-			 	else
-			 	{
-			 			echo "Konfirmasi Telah Dilakukan Sebelumnya";
-			 	}
+								else
+								{
+									foreach($deposit->result() as $dep)
+									{
+										$ex=date_add(date_create($dep->tanggal_expired),date_interval_create_from_date_string("$in->lama_hari days"));
+										$tanggal_expired=date_format($ex,'Y-m-d');
+										$databaru = array(
+											'id_deposit' => $dep->id_deposit, 
+											'memberid' => $dep->memberid, 
+											'kode_paket' => $in->kode_paket, 
+											'tanggal_expired' => $tanggal_expired,
+											'sisa_download'=>$dep->sisa_download+$in->kapasitas_download,
+											'status' =>1,
+											'tanggal_deposit'=>date('Y-m-d'),
+											'sisa_deposit'=>((0+$row->jumlah_bayar)-$in->harga)-(10/100*$in->harga),
+											);
+										//print_r($databaru);
+										$id_deposit=$dep->id_deposit;
+										$this->datadeposit->update_deposit($databaru,$id_deposit);
+									}
+									echo "Success";	
+								}
+						}
+			 		}
+				 	else
+				 	{
+				 			echo "Konfirmasi Telah Dilakukan Sebelumnya";
+				 	}
+					// 
+				}
+				else
+				{
+					echo "Konfirmasi Telah Dilakukan Sebelumnya Pada Invoice Yang Sama";
+				}
+			}
+		}
+		public function cekDuplikat($no_invoice)
+		{
+			$data=$this->datakonfirmasi->cekInvoice($no_invoice);
+			foreach($data->result() as $row)
+			{
+				$hasil[]=$row->status;
+			}
+			if (in_array(1,$hasil)) {
+				return 1;
+			}
+			else
+			{
+				return 0;
 			}
 		}
 
@@ -1693,6 +1718,81 @@ Team Pixtox<br>
 		{
 			$data['user']=$this->datamember->lastDaftar();
 			$this->load->view('back/list_user',$data);
+		}
+
+
+		// Detail Akun
+		public function detailAkun($memberid='')
+		{
+			$kosong='-';
+			$dataKosong = array(
+					'memberid' =>$kosong, 
+					'nama' =>$kosong, 
+					'username' =>$kosong, 
+					'alamat' =>$kosong, 
+					'email' =>$kosong, 
+					'no_identitas' =>$kosong, 
+					'foto' => base_url("assets/img/user.png"), 
+			);
+			
+			if (empty($memberid)) {
+				echo json_encode($dataKosong);
+			}
+			else
+			{
+				$status=substr($memberid, 0,1);
+				switch ($status) {
+					case 'C':
+						$hasil=$this->datacontributor->one($memberid);
+						if ($hasil->result()!=null) {
+							foreach($hasil->result() as $row)
+							{
+								$data = array(
+								'memberid' =>$row->memberid, 
+								'nama' =>$row->nama, 
+								'username' =>$row->username, 
+								'alamat' =>$row->alamat, 
+								'email' =>$row->email, 
+								'no_identitas' =>$row->no_identitas, 
+								'foto' =>base_url("upload/user/$row->foto"), 
+								);
+								echo json_encode($data);
+							}
+						}
+						else
+						{
+							echo json_encode($dataKosong);
+						}
+						
+						break;
+					case 'M':
+						$hasil=$this->datamember->one($memberid);
+						if ($hasil->result()!=null) {
+							foreach($hasil->result() as $row)
+							{
+								$data = array(
+								'memberid' =>$row->memberid, 
+								'nama' =>$row->nama, 
+								'username' =>$row->username, 
+								'alamat' =>$row->alamat, 
+								'email' =>$row->email, 
+								'no_identitas' =>$row->no_identitas, 
+								'foto' =>base_url("upload/user/$row->foto"), 
+								);
+								echo json_encode($data);
+							}
+						}
+						else
+						{
+							echo json_encode($dataKosong);
+						}
+						break;
+					default:
+						echo json_encode($dataKosong);
+						break;
+				}
+			}
+			
 		}
 
 	}

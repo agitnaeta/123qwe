@@ -5,7 +5,7 @@
 	class Datakonfirmasi extends CI_Model
 	{
 		
-		public function insert($bukti)
+		public function insert($newData)
 		{
 
 			$tanggal=$this->input->post('tanggal');
@@ -26,7 +26,8 @@
 				'tanggal_kirim' =>$tanggal_kirim,
 				'waktu' => $waktu,
 				'jumlah_bayar' => $this->input->post('jumlah_bayar'),
-				'bukti' => $bukti,
+				'bukti' => $newData['bukti'],
+				'memberid' => $newData['memberid'],
 			 );
 			$this->db->insert('konfirmasi',$data);
 		}
@@ -34,6 +35,11 @@
 		{
 			$q=$this->db->get('konfirmasi');
 			return $q;
+		}
+		public function cekInvoice($no_invoice)
+		{
+			$this->db->where('no_invoice',$no_invoice);
+			return $this->db->get('konfirmasi');
 		}
 		public function one($idkonfirmasi)
 		{

@@ -1,5 +1,5 @@
 
-<div class="container">
+<div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
 			<h3>Data Konfirmasi (<span id='jml_konfirmasi'></span>)</h3>

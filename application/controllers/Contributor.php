@@ -157,10 +157,10 @@
 				return $username;
 			}
 		}
-function getSession(){
-$session=$this->session->userdata('contributor');
-return $session;
-}
+		function getSession(){
+		$session=$this->session->userdata('contributor');
+		return $session;
+		}
 		public function getMemberid()
 		{
 			$session=$this->session->userdata('contributor');
@@ -1088,14 +1088,19 @@ public function uploadPhoto($big)
 			{
 				
 				$this->datakonfirmasi->insert($bukti='');
-                                echo 1;
+                echo 1;
 				
 			}
 			else
 			{
 				$data = array('upload_data' => $this->upload->data());
 				$bukti=$data['upload_data']['file_name'];
-				$this->datakonfirmasi->insert($bukti);
+				$s=$this->getSession();
+				$newData=array(
+					'bukti' => $bukti, 
+					'memberid' => $s['memberid'], 
+					);
+				$this->datakonfirmasi->insert($newData);
 				echo 1;
 			}
 		}

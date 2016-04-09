@@ -17,7 +17,7 @@
 		}
 		public function display()
 		{
-			$this->db->where('status',0);
+			// $this->db->where('status');
 			$q=$this->db->get('redeem');
 			return $q;
 		}
@@ -28,12 +28,12 @@
 			$q=$this->db->get('redeem');
 			return $q;
 		}
-function cekRedeem($memberid){
-                        $this->db->where('memberid',$memberid);
-		        //$this->db->where('status',0);
-			$q=$this->db->get('redeem');
-			return $q;
-}
+			function cekRedeem($memberid){
+			                        $this->db->where('memberid',$memberid);
+					        //$this->db->where('status',0);
+						$q=$this->db->get('redeem');
+						return $q;
+			}
 
                 public function myEarning($id_contributor)
 		{

@@ -1,4 +1,4 @@
-<table class=" table table-striped table-responsive" id="myTable">
+<table class=" table table-striped table-responsive" id="tableBank">
 	<thead class="bg-primary">
 		<th>Nama Bank</th>
 		<th>No Rekening</th>
@@ -23,7 +23,7 @@
 </table>
 <script type="text/javascript">
 	$(document).ready(function  () {
-		$('#myTable').DataTable( {
+		$('#tableBank').DataTable( {
 	        "scrollY":        "500px",
 	        "scrollCollapse": true,
 	        "paging":         false

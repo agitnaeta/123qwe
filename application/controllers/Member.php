@@ -43,10 +43,10 @@
 			
 		}
 
-function getSession(){
-$session=$this->session->userdata('member');
-return $session;
-}
+		function getSession(){
+		$session=$this->session->userdata('member');
+		return $session;
+		}
 		public function profil()
 		{
 			$session=$this->session->userdata('member');
@@ -409,7 +409,13 @@ public function createInvoice($data)
 			{
 				$data = array('upload_data' => $this->upload->data());
 				$bukti=$data['upload_data']['file_name'];
-				$this->datakonfirmasi->insert($bukti);
+				$s=$this->getSession();
+				$memberid=$s['memberid'];
+				$newData = array(
+					'bukti' => $bukti, 
+					'memberid' => $memberid, 
+					);
+				$this->datakonfirmasi->insert($newData);
 				echo "Success";
 			}
 		}
