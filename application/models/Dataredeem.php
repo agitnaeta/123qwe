@@ -24,13 +24,18 @@
 		public function myRedeem($memberid)
 		{
 			$this->db->where('memberid',$memberid);
-		        $this->db->where('status',0);
+		   $this->db->where('status',0);
 			$q=$this->db->get('redeem');
 			return $q;
 		}
+		public function validRedeem($memberid)
+		{
+			$q=$this->db->query("select sum(nominal) as jumlah from redeem where memberid='$memberid' and status=1;");
+			return $q;
+		}
 			function cekRedeem($memberid){
-			                        $this->db->where('memberid',$memberid);
-					        //$this->db->where('status',0);
+			        $this->db->where('memberid',$memberid);
+					   //$this->db->where('status',0);
 						$q=$this->db->get('redeem');
 						return $q;
 			}

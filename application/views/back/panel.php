@@ -404,11 +404,11 @@
 
             </li>
 
-            <li>
+          <!--   <li>
               <a href="<?php echo base_url("email/page_templateEmail");?>">
                 <i class="fa fa-envelope"></i><span>Email</span><i class="fa fa-angle-left pull-right"></i>
               </a>
-            </li>
+            </li> -->
             <li class="treeview">
 
               <a href="#">

@@ -1,4 +1,4 @@
-<table class="table table-striped table-responsive table-condensed" id="myTable">
+<table class="table table-striped table-responsive table-condensed" id="tblKonfirmasi">
 	<thead class="bg-primary">
 		<th><p id="no_invoice"> No Invoice</th>
 		<th><p id="no_rek_tujuan"> No Rekening Tujuan</p></th>
@@ -21,7 +21,7 @@
 			<td><?=$row->waktu;?></td>
 			<td>
 				 <a id="modal-<?=$row->idkonfirmasi;?>" href="#modal-container-<?=$row->idkonfirmasi;?>" role="button" class="btn detail btn-default" data-toggle="modal"><i class='fa fa-search'></i></a>
-				 <a id="<?=$row->memberid;?>" title="Lihat User" href="#" class="detail btn btn-default" data-toggle="modal" data-target="#myModal">
+				 <a id="<?=$row->memberid;?>" title="Lihat User" href="#" class="detKonfirmasi btn btn-default" data-toggle="modal" data-target="#modalKonfirmasi">
 						<i class='fa fa-user'></i>
 					</a>
 				<a href="#" id="<?=$row->idkonfirmasi;?>" class="acc btn btn-default"><i class='fa fa-check'></i></a>
@@ -83,28 +83,28 @@
 <?php endforeach;?>
 
 <!-- Modal Detail akun -->
-<div id="myModal" class="modal fade" role="dialog">
+<div id="modalKonfirmasi" class="modal fade" role="dialog">
   <div class="modal-dialog modal-lg">
 
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header bg-info">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Detail Pemilik Deposit "<span class="username"></span>" </h4>
+        <h4 class="modal-title">Detail Pemilik Konfirmasi "<span class="kusername"></span>" </h4>
       </div>
       <div class="modal-body">
         <table class="table tbl-striped tbl-condensed">
         	<tr>
         		<td colspan="2">
-        			<img width="300px" height="auto" id="foto" class="img img-responsive img-tengah">
+        			<img width="300px" height="auto" id="kfoto" class="img img-responsive img-tengah">
         		</td>
         	</tr>
-        	<tr><td>ID</td><td id="det_memberid"></td></tr>
-        	<tr><td>username</td><td class="username"></td></tr>
-        	<tr><td>no_identitas</td><td id="no_identitas"></td></tr>
-        	<tr><td>nama</td><td id="nama"></td></tr>
-        	<tr><td>email</td><td id="email"></td></tr>
-        	<tr><td>alamat</td><td id="alamat"></td></tr>
+        	<tr><td>ID</td><td id="kdet_memberid"></td></tr>
+        	<tr><td>username</td><td class="kusername"></td></tr>
+        	<tr><td>Nomor Identitas</td><td id="kno_identitas"></td></tr>
+        	<tr><td>nama</td><td id="knama"></td></tr>
+        	<tr><td>email</td><td id="kemail"></td></tr>
+        	<tr><td>alamat</td><td id="kalamat"></td></tr>
         </table>
       </div>
       <div class="modal-footer">
@@ -118,23 +118,23 @@
 <script type="text/javascript">
 	$(document).ready(function  () {
 
-		$('#myTable').DataTable( {
+		$('#tblKonfirmasi').DataTable( {
 	        "scrollY":        "500px",
 	        "scrollCollapse": true,
 	        "paging":         false
 	    });
 		 // detailAkun
-		$('.detail').click(function () {
+		$('.detKonfirmasi').click(function () {
 			var memberid=$(this).attr('id');
 			$.get('<?php echo base_url("pxadmin/detailAkun");?>/'+memberid+'',function (data) {
 				var o=JSON.parse(data)
-				$('#foto').attr("src",o.foto);
-				$('#det_memberid').html(o.memberid);
-				$('.username').html(o.username);
-				$('#no_identitas').html(o.no_identitas);
-				$('#nama').html(o.nama);
-				$('#email').html(o.email);
-				$('#alamat').html(o.alamat);
+				$('#kfoto').attr("src",o.foto);
+				$('#kdet_memberid').html(o.memberid);
+				$('.kusername').html(o.username);
+				$('#kno_identitas').html(o.no_identitas);
+				$('#knama').html(o.nama);
+				$('#kemail').html(o.email);
+				$('#kalamat').html(o.alamat);
 			})
 		})
 

@@ -10,6 +10,21 @@
 			$q=$this->db->get('download');
 			return $q;
 		}
+		public function byFoto($id_foto)
+		{
+			$this->db->where('id_foto',$id_foto);
+			return $this->db->get('download');
+		}
+		public function cekContributor($id_foto)
+		{
+			return $this->db->query("select distinct(d.id_foto),c.memberid from download d,contributor c,foto f where d.id_foto=f.id_foto and c.memberid=f.id_contributor and d.id_foto='$id_foto'");
+		}
+		public function valid($param,$id_foto)
+		{
+			$this->db->where('status',$param);
+			$this->db->where('id_foto',$id_foto);
+			return $this->db->get('download');
+		}
 		public function insert($download)
 		{
 			$this->db->insert('download',$download);
@@ -55,10 +70,7 @@
 		}
 		public function display()
 		{
-			$q=$this->db->query("select f.id_foto,count(f.id_foto) as jumlah, id_contributor, memberid, watermark,f.mini
-								from download d, foto f
-								where d.id_foto=f.id_foto
-								order by jumlah desc");
+			$q=$this->db->query("select distinct(d.id_foto),d.mini,count(d.id_foto) as jumlah ,c.username from download d,foto f, contributor c where d.id_foto=f.id_foto and c.memberid=f.id_contributor group by id_foto order by jumlah DESC");
 			return $q;
 		}
 		public function jumlah_download()

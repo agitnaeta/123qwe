@@ -15,7 +15,7 @@
 			else
 			{
 				$this->load->model('dataadmin');
-           		$this->load->model('user');
+           $this->load->model('user');
 				$this->load->model('databank');
 				$this->load->model('datafile');
 				$this->load->model('datapage');
@@ -48,6 +48,7 @@
 			$data['username']=$session['username'];
 			$this->load->view('modul/css');
 			$this->load->view('modul/js');
+			
 			$this->load->view('back/panel',$data);
 		}
 		public function page_user()
@@ -1239,6 +1240,7 @@ Team Pixtox<br>
 		public function table_konfirmasi()
 		{
 			$data['konfirmasi']=$this->datakonfirmasi->display();
+			$this->load->view('modul/datatable');
 			$this->load->view('back/table_konfirmasi',$data);
 		}
 		public function jml_konfirmasi()
@@ -1507,12 +1509,73 @@ Team Pixtox<br>
 			$this->load->view('modul/datatable');
 			$this->load->view('back/table_download',$data);
 		}
-
-
-
-
-
-
+		public function detailDownload($id_foto='')
+		{
+			if (empty($id_foto)) {
+				$data = array(
+					'jumlah_link' =>null, 
+					'valid' =>null, 
+					'not_valid' =>null, 
+					'earning' =>null, 
+					'redeem' =>null, 
+					);
+			}
+			else{
+				$download=$this->datadownload->byFoto($id_foto);
+				foreach ($download->result() as $row)
+				{
+					$link[]=$row->id_foto;
+					$earning[]=$row->earning;
+					$data = array(
+					'jumlah_link' =>count($link), 
+					'valid' =>$this->downloadValid($id_foto), 
+					'not_valid' =>$this->downloadNotValid($id_foto), 
+					'earning' =>rupiah(array_sum($earning)), 
+					'redeem' =>rupiah($this->cekRedeem($id_foto)), 
+					);
+				}
+				echo json_encode($data);
+			}
+		}
+		public function downloadValid($id_foto)
+		{
+			$hasil=$this->datadownload->valid(1,$id_foto);
+			$s=array();
+			foreach ($hasil->result() as $row)
+			{
+				$s[]=$row->status;
+				
+			}
+			return count($s);
+		}
+		public function downloadNotValid($id_foto)
+		{
+			$hasil=$this->datadownload->valid(0,$id_foto);
+			$s=array();
+			foreach ($hasil->result() as $row)
+			{
+				$s[]=$row->status;
+				
+			}
+			return count($s);
+		}
+		public function cekRedeem($id_foto)
+		{
+			$member=$this->datadownload->cekContributor($id_foto);
+			foreach ($member->result() as $row)
+			{
+				$redeem=$this->dataredeem->validRedeem($row->memberid);
+				foreach ($redeem->result() as $row)
+				{
+					return $row->jumlah;
+				}
+			}
+		}
+		public function daftarDownload($id_foto)
+		{
+			$data['daftar']=$this->datadownload->daftarDownload($id_foto);
+			$this->load->view('back/daftar_download',$data);
+		}
 
 		#Request Vektor
 		public function table_vektor()
@@ -1747,6 +1810,13 @@ Team Pixtox<br>
 						if ($hasil->result()!=null) {
 							foreach($hasil->result() as $row)
 							{
+								$foto=$row->foto;
+								if ($foto==null) {
+									$foto=base_url("assets/img/user.png");
+								}
+								else{
+									$foto=base_url("upload/user/$foto");
+								}
 								$data = array(
 								'memberid' =>$row->memberid, 
 								'nama' =>$row->nama, 
@@ -1754,7 +1824,7 @@ Team Pixtox<br>
 								'alamat' =>$row->alamat, 
 								'email' =>$row->email, 
 								'no_identitas' =>$row->no_identitas, 
-								'foto' =>base_url("upload/user/$row->foto"), 
+								'foto' =>$foto, 
 								);
 								echo json_encode($data);
 							}
@@ -1770,6 +1840,13 @@ Team Pixtox<br>
 						if ($hasil->result()!=null) {
 							foreach($hasil->result() as $row)
 							{
+								$foto=$row->foto;
+								if ($foto==null) {
+									$foto=base_url("assets/img/user.png");
+								}
+								else{
+									$foto=base_url("upload/user/$foto");
+								}
 								$data = array(
 								'memberid' =>$row->memberid, 
 								'nama' =>$row->nama, 
@@ -1777,7 +1854,7 @@ Team Pixtox<br>
 								'alamat' =>$row->alamat, 
 								'email' =>$row->email, 
 								'no_identitas' =>$row->no_identitas, 
-								'foto' =>base_url("upload/user/$row->foto"), 
+								'foto' =>$foto, 
 								);
 								echo json_encode($data);
 							}
