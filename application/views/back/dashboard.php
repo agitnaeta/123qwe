@@ -84,7 +84,7 @@
             <div class="col-md-6">
              <div class="box box-info">
                <div class="box-header with-border">
-               <h3 class="box-title">New Redeem (<span id="countredeem"></span>)</h3>
+               <h3 class="box-title">Redeem </h3>
                <div class="pull-right" id="countredeemNotif"></div>
                <div class="table table-responsive">
                  <div id="table_redeem"></div>
@@ -120,7 +120,7 @@
             <!-- /.box-body -->
             <div class="box-footer clearfix">
               <a href="#" class="page_konfirmasi btn btn-sm btn-info btn-flat pull-left">Cek Semua Konfirmasi</a>
-              <a href="#" class="page_konfirmasi btn btn-sm btn-default btn-flat pull-right">View All Orders</a>
+         
             </div>
             <!-- /.box-footer -->
           </div>
@@ -215,27 +215,27 @@
       })
      }
 		 
-		 function cekData () {
-			 	setTimeout(function  () {
-			 	notifDownload();
-				notifRequest();
-				notifKonfirmasi();
-                     notifredeem();
-				notifImage();
+		 // function cekData () {
+			//  	setTimeout(function  () {
+			//  	notifDownload();
+			// 	notifRequest();
+			// 	notifKonfirmasi();
+   //                   notifredeem();
+			// 	notifImage();
 
-				 // return cekData();
-			 },10000)
+			// 	 // return cekData();
+			//  },10000)
 
-		 }
+		 // }
 
-		 function ring () {
-		 		var audioElement = document.createElement('audio');
-		        audioElement.setAttribute('src', '<?php echo base_url("assets/sound/ring.mp3");?>');
-		        audioElement.setAttribute('autoplay', 'autoplay');
-		        audioElement.play();
-		        audioElement.stop();
-		 }
-		 cekData()
+		 // function ring () {
+		 // 		var audioElement = document.createElement('audio');
+		 //        audioElement.setAttribute('src', '<?php echo base_url("assets/sound/ring.mp3");?>');
+		 //        audioElement.setAttribute('autoplay', 'autoplay');
+		 //        audioElement.play();
+		 //        audioElement.stop();
+		 // }
+		 // cekData()
 		$('#table_konfirmasi').load('<?php echo base_url("pxadmin/table_konfirmasi");?>');
           $('#table_redeem').load('<?php echo base_url("pxadmin/table_redeem");?>');
 		$('.page_konfirmasi').click(function  () {

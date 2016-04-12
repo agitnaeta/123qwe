@@ -4,7 +4,6 @@
 		padding-right: 5%;
 	}
 </style>
-<script src="<?=base_url();?>assets/ckeditor/ckeditor.js"></script>
 <div class="container">
 	<div class="row">
 		<div class="col-md-10">

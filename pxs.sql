@@ -2452,7 +2452,7 @@ CREATE TABLE IF NOT EXISTS `voting` (
 --
 DROP TABLE IF EXISTS `earning`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `earning`  AS  select distinct `d`.`id_download` AS `id_download`,`f`.`id_foto` AS `id_foto`,`d`.`earning` AS `earning`,`f`.`id_contributor` AS `id_contributor`,`d`.`memberid` AS `memberid`,`d`.`status` AS `status`,`d`.`tanggal_download` AS `tanggal_download` from (`download` `d` join `foto` `f`) where (`d`.`id_foto` = `f`.`id_foto`) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`pixtoxco`@`localhost` SQL SECURITY DEFINER VIEW `earning`  AS  select distinct `d`.`id_download` AS `id_download`,`f`.`id_foto` AS `id_foto`,`d`.`earning` AS `earning`,`f`.`id_contributor` AS `id_contributor`,`d`.`memberid` AS `memberid`,`d`.`status` AS `status`,`d`.`tanggal_download` AS `tanggal_download` from (`download` `d` join `foto` `f`) where (`d`.`id_foto` = `f`.`id_foto`) ;
 
 -- --------------------------------------------------------
 
@@ -2461,7 +2461,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `imageweek`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `imageweek`  AS  select `foto`.`watermark` AS `watermark`,`foto`.`mini` AS `mini`,`foto`.`big` AS `big`,`foto`.`judul` AS `judul`,`foto`.`id_foto` AS `id_foto`,`foto`.`status` AS `status`,count(`p`.`id_foto`) AS `vote`,sum(`p`.`nilai`) AS `nilai` from (`perhitungan_nilai` `p` join `foto` on(((`p`.`id_foto` = `foto`.`id_foto`) and (`foto`.`image_week` = 1) and (`foto`.`status` = 0)))) group by `foto`.`id_foto` order by `foto`.`id_foto` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`pixtoxco`@`localhost` SQL SECURITY DEFINER VIEW `imageweek`  AS  select `foto`.`watermark` AS `watermark`,`foto`.`mini` AS `mini`,`foto`.`big` AS `big`,`foto`.`judul` AS `judul`,`foto`.`id_foto` AS `id_foto`,`foto`.`status` AS `status`,count(`p`.`id_foto`) AS `vote`,sum(`p`.`nilai`) AS `nilai` from (`perhitungan_nilai` `p` join `foto` on(((`p`.`id_foto` = `foto`.`id_foto`) and (`foto`.`image_week` = 1) and (`foto`.`status` = 0)))) group by `foto`.`id_foto` order by `foto`.`id_foto` ;
 
 -- --------------------------------------------------------
 
@@ -2470,7 +2470,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `voting`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `voting`  AS  select `foto`.`watermark` AS `watermark`,`foto`.`mini` AS `mini`,`foto`.`big` AS `big`,`foto`.`judul` AS `judul`,`foto`.`id_foto` AS `id_foto`,`foto`.`status` AS `status`,count(`p`.`id_foto`) AS `vote`,sum(`p`.`nilai`) AS `nilai` from (`perhitungan_nilai` `p` join `foto` on(((`p`.`id_foto` = `foto`.`id_foto`) and (`foto`.`status` = 0)))) group by `foto`.`id_foto` order by `foto`.`id_foto` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`pixtoxco`@`localhost` SQL SECURITY DEFINER VIEW `voting`  AS  select `foto`.`watermark` AS `watermark`,`foto`.`mini` AS `mini`,`foto`.`big` AS `big`,`foto`.`judul` AS `judul`,`foto`.`id_foto` AS `id_foto`,`foto`.`status` AS `status`,count(`p`.`id_foto`) AS `vote`,sum(`p`.`nilai`) AS `nilai` from (`perhitungan_nilai` `p` join `foto` on(((`p`.`id_foto` = `foto`.`id_foto`) and (`foto`.`status` = 0)))) group by `foto`.`id_foto` order by `foto`.`id_foto` ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

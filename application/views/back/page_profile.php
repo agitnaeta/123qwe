@@ -4,12 +4,10 @@
 		padding-right: 5%;
 	}
 </style>
-<script src="<?=base_url();?>assets/ckeditor/ckeditor.js"></script>
 <div class="container">
 	<div class="row">
 		<div class="col-md-10">
 		<h3><?=$judul;?><span id='pesan' class='bg-success'></span></h3>
-		
 		<div>
 	            <form id="form_profile" method="post" action="/">
 	            <input id="title" class="form-control" name="name_page" placeholder='Title'>
@@ -17,10 +15,7 @@
 	                <?php foreach($profile->result() as $row){echo $row->isi;};?>
 	            </textarea>
 	            <script>
-	                
-	                // instance, using default configuration.
 	                CKEDITOR.replace( 'isi' );
-
 	            </script>
         </form>
 		</div>

@@ -19,7 +19,7 @@
 			</td>
 			<td class="text-center">
 				<button id="<?=$row->id_foto;?>" class="detailDownload btn btn-default" data-toggle="modal" data-target="#myModal"><i class="fa fa-search"></i> Daftar Download</button>
-				<button  id="<?=$row->id_foto;?>" class="btn btn-default"><i class="fa fa-user"></i> Contributor</button>
+				<!-- <button  id="<?=$row->id_foto;?>" class="btn btn-default"><i class="fa fa-user"></i> Contributor</button> -->
 			</td>
 		</tr>
 	<?php endforeach;?>	

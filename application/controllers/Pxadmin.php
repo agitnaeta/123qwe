@@ -48,7 +48,7 @@
 			$data['username']=$session['username'];
 			$this->load->view('modul/css');
 			$this->load->view('modul/js');
-			
+			$this->load->view('modul/ckeditor');
 			$this->load->view('back/panel',$data);
 		}
 		public function page_user()
@@ -365,7 +365,6 @@
 			$data['page']=$this->datapage->profile();
 			$data['judul']="Profile Editor";
 			$data['link']="updateProfile";
-			$this->load->view('css');
 			$this->load->view('back/page_info',$data);
 		}
 		public function updateProfile()
